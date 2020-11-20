@@ -19,10 +19,13 @@
 
         public DateTime DateAdded { get; set; }
 
+        [Required]
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
-        [Display(Name = "Nummber in stock")]
+        [Required]
+        [Range(1, 20)]
+        [Display(Name = "Number in stock")]
         public byte NumberInStock { get; set; }
     }
 }
