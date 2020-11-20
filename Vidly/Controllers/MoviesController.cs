@@ -48,7 +48,6 @@
             var viewModel = new MovieFormViewModel()
             {
                 Title = "New Movie",
-                Movie = new Movie(),
                 Genres = genres
             };
 
@@ -62,10 +61,9 @@
             if (movie == null)
                 return HttpNotFound();
 
-            var viewModel = new MovieFormViewModel()
+            var viewModel = new MovieFormViewModel(movie)
             {
                 Title = "Edit Movie",
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
 
@@ -78,10 +76,9 @@
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new MovieFormViewModel
+                var viewModel = new MovieFormViewModel(movie)
                 {
                     Title = "New Movie",
-                    Movie = movie,
                     Genres = _context.Genres.ToList()
                 };
 
