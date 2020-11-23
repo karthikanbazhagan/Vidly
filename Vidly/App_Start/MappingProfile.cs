@@ -13,8 +13,11 @@
             Mapper.CreateMap<Movie, MovieDto>();
 
             // Dto to Domain
-            Mapper.CreateMap<CustomerDto, Customer>();
-            Mapper.CreateMap<MovieDto, Movie>();
+            Mapper.CreateMap<CustomerDto, Customer>()
+                .ForMember(c => c.Id, opt => opt.Ignore());
+
+            Mapper.CreateMap<MovieDto, Movie>()
+                .ForMember(m => m.Id, opt => opt.Ignore());
         }
     }
 }
