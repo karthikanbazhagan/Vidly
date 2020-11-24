@@ -1,11 +1,12 @@
 ﻿namespace Vidly.Controllers.Api
 {
-    using AutoMapper;
     using System;
+    using System.Data.Entity;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Web.Http;
+    using AutoMapper;
     using Vidly.Dtos;
     using Vidly.Models;
 
@@ -21,13 +22,18 @@
         // GET: /api/customers
         public IHttpActionResult GetCustomers()
         {
-            return Ok(_context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>));
+            return Ok(_context.Customers
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>));
         }
 
         // GET: /api/customers/1
         public IHttpActionResult GetCustomer(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers
+                .Include(c => c.MembershipType)
+                .SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return NotFound();
