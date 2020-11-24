@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using System;
+    using System.Data.Entity;
     using System.Linq;
     using System.Web.Http;
     using Vidly.Dtos;
@@ -19,13 +20,20 @@
         // GET: /api/movies
         public IHttpActionResult GetMovies()
         {
-            return Ok(_context.Movies.Select(Mapper.Map<Movie, MovieDto>));
+            var movies = _context.Movies
+                .Include(m => m.Genre)
+                .ToList()
+                .Select(Mapper.Map<Movie, MovieDto>);
+
+            return Ok(movies);
         }
 
         // GET: /api/movies/1
         public IHttpActionResult GetMovie(int id)
         {
-            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+            var movie = _context.Movies
+                .Include(m => m.Genre)
+                .SingleOrDefault(m => m.Id == id);
 
             if (movie == null)
                 return NotFound();
