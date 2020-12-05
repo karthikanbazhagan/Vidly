@@ -26,7 +26,10 @@
         // GET: Movies
         public ViewResult Index()
         {
-            return View();
+            if(User.IsInRole(RoleName.StoreManager))
+                return View("List");
+
+            return View("ReadOnlyList");
         }
 
         public ActionResult Details(int id)
@@ -39,6 +42,7 @@
             return View(movie);
         }
 
+        [Authorize(Roles = RoleName.StoreManager)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
@@ -52,6 +56,7 @@
             return View("MovieForm", viewModel);
         }
 
+        [Authorize(Roles = RoleName.StoreManager)]
         public ActionResult Edit(int id)
         {
             var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
@@ -70,6 +75,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.StoreManager)]
         public ActionResult Save(Movie movie)
         {
             if (!ModelState.IsValid)
