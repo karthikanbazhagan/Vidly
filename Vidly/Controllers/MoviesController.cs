@@ -24,6 +24,7 @@
         }
 
         // GET: Movies
+        //[OutputCache(Duration = 0, Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "*")]
         public ViewResult Index()
         {
             if(User.IsInRole(RoleName.StoreManager))
