@@ -24,6 +24,9 @@
 
             foreach(var movie in movies)
             {
+                if (movie.NumberAvailable == 0)
+                    return BadRequest($"Movie: '{movie.Name}' is not available currently.!");
+
                 var rental = new Rental()
                 {
                     Customer = customer,
